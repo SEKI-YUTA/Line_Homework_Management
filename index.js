@@ -1,3 +1,5 @@
+// 個人用はうまく動く
+
 const line = require("@line/bot-sdk");
 const {
   getAllData,
@@ -27,13 +29,18 @@ app.post("/webhook", line.middleware(CONFIG), (req, res) =>
 async function handleBot(req, res) {
   res.status(200).end();
   req.body.events.map(async (event) => {
-    // console.log(event);
+    console.log(event);
     if (String(event.message.text).startsWith("@課題削除")) {
       deleteItemText = String(event.message.text).split("\n");
       if (deleteItemText[1] !== undefined) {
         console.log("delete");
         console.log(String(deleteItemText[1]));
-        result = deleteHomeWork(deleteItemText[1]);
+        result = deleteHomeWork(
+          deleteItemText[1],
+          event.source.type === "group"
+            ? event.source.groupId
+            : event.source.userId
+        );
         result == true
           ? replyRequest("", deleteHomeWork[1] + "を削除しました。")
           : null;
@@ -47,10 +54,11 @@ async function handleBot(req, res) {
         console.log(`type: ${event.source.type}`);
         if (event.source.type === "group") {
           console.log("グループに追加");
-          result = createNewHomeWork([event.source.type, newItemText[1]]);
+          result = createNewHomeWork(newItemText[1], event.source.groupId);
           // result == true
           //   ? replyRequest("", "宿題を追加しました", event.replyToken)
           //   : null;
+          console.log(result);
           if (result) {
             replyRequest("", "宿題を追加しました", event.replyToken);
           } else {
@@ -58,17 +66,27 @@ async function handleBot(req, res) {
           }
         } else if (event.source.type === "user") {
           console.log("個人に追加");
-          result = createNewHomeWork([event.source.type, newItemText[1]]);
-          result === true
-            ? replyRequest("", "宿題を追加しました", event.replyToken)
-            : null;
+          result = createNewHomeWork(newItemText[1], event.source.userId);
+          if (result) {
+            replyRequest("", "宿題を追加しました", event.replyToken);
+          } else {
+            replyRequest("", "宿題の追加に失敗しました", event.replyToken);
+          }
         }
       }
     } else if (String(event.message.text).startsWith("@課題")) {
       console.log(event);
-      data = await getAllData();
+      data = await getAllData(
+        event.source.type === "group"
+          ? event.source.groupId
+          : event.source.userId
+      );
       homework = createHomeWorkList(data);
-      replyRequest("課題一覧", homework, event.replyToken);
+      replyRequest(
+        "課題一覧",
+        homework === "" ? "\n課題がありません" : homework,
+        event.replyToken
+      );
     }
   });
 }

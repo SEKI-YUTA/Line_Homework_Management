@@ -1,14 +1,15 @@
 const { client } = require("./db_client");
 
-const getHomeWork = "SELECT * from homeworks;";
+const getHomeWork = "SELECT * from homeworks where uniqueid=$1;";
 const createHomeWork =
   "insert into homeworks (uniqueid, content) values ($1, $2);";
-const deleteFinHomeWork = "delete from homeworks where content=$1";
+const deleteFinHomeWork =
+  "delete from homeworks where content=$1 AND uniqueid=$2";
 
-async function getAllData() {
+async function getAllData(uniqueid) {
   let data = [];
   await client
-    .query("SELECT * from homeworks;")
+    .query(getHomeWork, [uniqueid])
     .then((res) => {
       // console.log(res);
       // data = res.rows;
@@ -29,12 +30,15 @@ async function getAllData() {
   return data;
 }
 
+//　追加できないときがある
 // [uniqueid, content]
-async function createNewHomeWork(data) {
+async function createNewHomeWork(content, uniqueid) {
   let isSuccess = false;
-  if (Array.isArray(data) && data[0] !== "" && data[1] !== !"") {
+  if (Array.isArray([uniqueid, content]) && uniqueid !== "" && content !== "") {
+    console.log("uniqueid: ", uniqueid);
+    console.log("content: ", content);
     await client
-      .query(createHomeWork, data)
+      .query(createHomeWork, [uniqueid, content])
       .then((res) => {
         console.log("新規作成しました");
         isSuccess = true;
@@ -52,12 +56,12 @@ async function createNewHomeWork(data) {
   return isSuccess;
 }
 
-async function deleteHomeWork(content) {
+async function deleteHomeWork(content, uniqueid) {
   let isSuccess = false;
   console.log("delete item" + content);
   if (content !== "") {
     await client
-      .query(deleteFinHomeWork, [content])
+      .query(deleteFinHomeWork, [content, uniqueid])
       .then((res) => {
         console.log(res);
         console.log("削除しました");
