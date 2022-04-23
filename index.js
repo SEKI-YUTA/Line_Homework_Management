@@ -16,7 +16,7 @@ const CONFIG = {
 
 const client = new line.Client(CONFIG);
 
-const PORT = 3000;
+const PORT = 3000 || process.env.PORT;
 
 const app = express();
 
