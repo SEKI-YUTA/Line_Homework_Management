@@ -7,8 +7,6 @@ const {
   deleteHomeWork,
 } = require("./db_helper");
 const express = require("express");
-const { type } = require("express/lib/response");
-const { text } = require("express");
 require("dotenv").config();
 
 const CONFIG = {
@@ -60,17 +58,17 @@ async function handleBot(req, res) {
           //   : null;
           console.log(result);
           if (result) {
-            replyRequest("", "宿題を追加しました", event.replyToken);
+            replyRequest("", "課題を追加しました", event.replyToken);
           } else {
-            replyRequest("", "宿題の追加に失敗しました", event.replyToken);
+            replyRequest("", "課題の追加に失敗しました", event.replyToken);
           }
         } else if (event.source.type === "user") {
           console.log("個人に追加");
           result = createNewHomeWork(newItemText[1], event.source.userId);
           if (result) {
-            replyRequest("", "宿題を追加しました", event.replyToken);
+            replyRequest("", "課題を追加しました", event.replyToken);
           } else {
-            replyRequest("", "宿題の追加に失敗しました", event.replyToken);
+            replyRequest("", "課題の追加に失敗しました", event.replyToken);
           }
         }
       }
