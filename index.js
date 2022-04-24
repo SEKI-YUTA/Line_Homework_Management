@@ -24,6 +24,10 @@ app.post("/webhook", line.middleware(CONFIG), (req, res) =>
   handleBot(req, res)
 );
 
+app.get("/", (req, res) => {
+  res.send("it works!");
+});
+
 async function handleBot(req, res) {
   res.status(200).end();
   req.body.events.map(async (event) => {
