@@ -11,8 +11,6 @@ async function getAllData(uniqueid) {
   await client
     .query(getHomeWork, [uniqueid])
     .then((res) => {
-      // console.log(res);
-      // data = res.rows;
       res.rows.forEach((item) => {
         // console.log("------------");
         // console.log(item.uniqueid);
@@ -22,16 +20,11 @@ async function getAllData(uniqueid) {
         data.push(item);
       });
     })
-    .finally(() => {
-      // console.log("client.end()");
-      // client.end();
-    });
+    .finally(() => {});
 
   return data;
 }
 
-//　追加できないときがある
-// [uniqueid, content]
 async function createNewHomeWork(content, uniqueid) {
   let isSuccess = false;
   if (Array.isArray([uniqueid, content]) && uniqueid !== "" && content !== "") {
