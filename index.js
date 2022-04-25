@@ -46,6 +46,11 @@ async function handleBot(req, res) {
         result == true
           ? replyRequest("", deleteHomeWork[1] + "を削除しました。")
           : null;
+        if (result) {
+          replyRequest("", deleteHomeWork[1] + "を削除しました。");
+        } else {
+          replyRequest("", deleteHomeWork[1] + "の削除に失敗しました。");
+        }
       }
     } else if (String(event.message.text).startsWith("@課題追加")) {
       newItemText = String(event.message.text).split("\n");
@@ -57,9 +62,6 @@ async function handleBot(req, res) {
         if (event.source.type === "group") {
           console.log("グループに追加");
           result = createNewHomeWork(newItemText[1], event.source.groupId);
-          // result == true
-          //   ? replyRequest("", "宿題を追加しました", event.replyToken)
-          //   : null;
           console.log(result);
           if (result) {
             replyRequest("", "課題を追加しました", event.replyToken);
