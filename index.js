@@ -43,19 +43,20 @@ async function handleBot(req, res) {
             ? event.source.groupId
             : event.source.userId
         );
+        deleteItemText = String(event.message.text).split("\n");
         // result == true
         //   ? replyRequest("", deleteHomeWork[1] + "を削除しました。")
         //   : null;
         if (result) {
           replyRequest(
             "",
-            event.message.text + "を削除しました。",
+            deleteItemText[1] + "を削除しました。",
             event.replyToken
           );
         } else {
           replyRequest(
             "",
-            event.message.text + "の削除に失敗しました。",
+            deleteItemText[1] + "の削除に失敗しました。",
             event.replyToken
           );
         }
