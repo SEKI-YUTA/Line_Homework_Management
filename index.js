@@ -47,15 +47,11 @@ async function handleBot(req, res) {
         //   ? replyRequest("", deleteHomeWork[1] + "を削除しました。")
         //   : null;
         if (result) {
-          replyRequest(
-            "",
-            deleteHomeWork[1] + "を削除しました。",
-            event.replyToken
-          );
+          replyRequest("", event.text + "を削除しました。", event.replyToken);
         } else {
           replyRequest(
             "",
-            deleteHomeWork[1] + "の削除に失敗しました。",
+            event.text + "の削除に失敗しました。",
             event.replyToken
           );
         }
