@@ -62,20 +62,20 @@ async function handleBot(req, res) {
         if (event.source.type === "group") {
           console.log("グループに追加");
           result = createNewHomeWork(newItemText[1], event.source.groupId);
-          console.log(result);
-          if (result) {
-            replyRequest("", "課題を追加しました", event.replyToken);
-          } else {
-            replyRequest("", "課題の追加に失敗しました", event.replyToken);
-          }
+          console.log(`result: ${result}`);
+          // if (result) {
+          //   replyRequest("", "課題を追加しました", event.replyToken);
+          // } else {
+          //   replyRequest("", "課題の追加に失敗しました", event.replyToken);
+          // }
         } else if (event.source.type === "user") {
           console.log("個人に追加");
           result = createNewHomeWork(newItemText[1], event.source.userId);
-          if (result) {
-            replyRequest("", "課題を追加しました", event.replyToken);
-          } else {
-            replyRequest("", "課題の追加に失敗しました", event.replyToken);
-          }
+          // if (result) {
+          //   replyRequest("", "課題を追加しました", event.replyToken);
+          // } else {
+          //   replyRequest("", "課題の追加に失敗しました", event.replyToken);
+          // }
         }
       }
     } else if (String(event.message.text).startsWith("@課題")) {
