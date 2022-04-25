@@ -43,9 +43,9 @@ async function handleBot(req, res) {
             ? event.source.groupId
             : event.source.userId
         );
-        result == true
-          ? replyRequest("", deleteHomeWork[1] + "を削除しました。")
-          : null;
+        // result == true
+        //   ? replyRequest("", deleteHomeWork[1] + "を削除しました。")
+        //   : null;
         if (result) {
           replyRequest("", deleteHomeWork[1] + "を削除しました。");
         } else {
