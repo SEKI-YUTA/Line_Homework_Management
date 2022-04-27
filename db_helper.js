@@ -33,16 +33,14 @@ async function createNewHomeWork(content, uniqueid) {
     await client
       .query(createHomeWork, [uniqueid, content])
       .then((res) => {
-        console.log("新規作成しました");
+        // console.log("新規作成しました");
         isSuccess = true;
       })
       .catch((e) => {
-        console.log("新規作成に失敗しました");
+        // console.log("新規作成に失敗しました");
         isSuccess = false;
       })
-      .finally(() => {
-        console.log("finally");
-      });
+      .finally(() => {});
   } else {
     isSuccess = false;
   }
@@ -57,17 +55,15 @@ async function deleteHomeWork(content, uniqueid) {
       .query(deleteFinHomeWork, [content, uniqueid])
       .then((res) => {
         console.log(res);
-        console.log("削除しました");
+        // console.log("削除しました");
         isSuccess = true;
       })
       .catch((e) => {
         console.log(e);
-        console.log("削除に失敗しました");
+        // console.log("削除に失敗しました");
         isSuccess = false;
       })
-      .finally(() => {
-        console.log("finally");
-      });
+      .finally(() => {});
     return isSuccess;
   }
 }

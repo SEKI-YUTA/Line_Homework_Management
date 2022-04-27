@@ -36,17 +36,13 @@ async function handleBot(req, res) {
       deleteItemText = String(event.message.text).split("\n");
       if (deleteItemText[1] !== undefined) {
         console.log("delete");
-        console.log(String(deleteItemText[1]));
+        // console.log(String(deleteItemText[1]));
         result = deleteHomeWork(
           deleteItemText[1],
           event.source.type === "group"
             ? event.source.groupId
             : event.source.userId
         );
-        deleteItemText = String(event.message.text).split("\n");
-        // result == true
-        //   ? replyRequest("", deleteHomeWork[1] + "を削除しました。")
-        //   : null;
         if (result) {
           replyRequest(
             "",
@@ -65,13 +61,14 @@ async function handleBot(req, res) {
       newItemText = String(event.message.text).split("\n");
       // console.log(newItemText.split("\n")[2]);
       if (newItemText[1] !== undefined) {
+        console.log("add");
         // createNewHomeWork(newItemText[1]);
-        console.log(newItemText[1]);
-        console.log(`type: ${event.source.type}`);
+        // console.log(newItemText[1]);
+        // console.log(`type: ${event.source.type}`);
         if (event.source.type === "group") {
-          console.log("グループに追加");
+          // console.log("グループに追加");
           result = createNewHomeWork(newItemText[1], event.source.groupId);
-          console.log(`result:${result}`);
+          // console.log(`result:${result}`);
           if (result) {
             replyRequest("", "課題を追加しました", event.replyToken);
           } else {
@@ -88,7 +85,7 @@ async function handleBot(req, res) {
         }
       }
     } else if (String(event.message.text).startsWith("@課題")) {
-      console.log(event);
+      console.log("list");
       data = await getAllData(
         event.source.type === "group"
           ? event.source.groupId
